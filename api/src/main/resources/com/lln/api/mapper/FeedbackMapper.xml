@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lln.api.mapper.FeedbackMapper">
+  <resultMap id="BaseResultMap" type="com.lln.api.domain.Feedback">
+    <!--@mbg.generated-->
+    <!--@Table feedback-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="feedback" jdbcType="LONGVARCHAR" property="feedback" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, contact, feedback
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from feedback
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from feedback
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lln.api.domain.Feedback" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into feedback (contact, feedback)
+    values (#{contact,jdbcType=VARCHAR}, #{feedback,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.lln.api.domain.Feedback" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into feedback
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="contact != null">
+        contact,
+      </if>
+      <if test="feedback != null">
+        feedback,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null">
+        #{feedback,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lln.api.domain.Feedback">
+    <!--@mbg.generated-->
+    update feedback
+    <set>
+      <if test="contact != null">
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null">
+        feedback = #{feedback,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lln.api.domain.Feedback">
+    <!--@mbg.generated-->
+    update feedback
+    set contact = #{contact,jdbcType=VARCHAR},
+      feedback = #{feedback,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

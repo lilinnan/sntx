@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "sntx.threshold",
+      "type": "java.lang.Integer",
+      "description": "出现几个查不到的才结束.",
+      "defaultValue": 999
+    }
+  ]
+}
