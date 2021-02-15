@@ -21,23 +21,33 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for avatar
 -- ----------------------------
 DROP TABLE IF EXISTS `avatar`;
-CREATE TABLE `avatar`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `data` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uid`(`uid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 53239 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+CREATE TABLE `avatar`
+(
+    `id`   int(11)                                                NOT NULL AUTO_INCREMENT,
+    `uid`  varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `data` text CHARACTER SET utf8 COLLATE utf8_general_ci        NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `uid` (`uid`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 53239
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci
+  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for feedback
 -- ----------------------------
 DROP TABLE IF EXISTS `feedback`;
-CREATE TABLE `feedback`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `contact` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `feedback` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+CREATE TABLE `feedback`
+(
+    `id`       int(11)                                                NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `contact`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `feedback` longtext CHARACTER SET utf8 COLLATE utf8_general_ci    NOT NULL,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 30
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci
+  ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;
