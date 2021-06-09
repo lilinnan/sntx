@@ -7,64 +7,20 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="uid" jdbcType="VARCHAR" property="uid"/>
         <result column="data" jdbcType="LONGVARCHAR" property="data"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, `uid`, `data`
+        id, `uid`, `data`,`type`
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
-        select
-        <include refid="Base_Column_List"/>
-        from avatar
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        <!--@mbg.generated-->
-        delete
-        from avatar
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
+
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lln.api.domain.Avatar"
             useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into avatar (`uid`, `data`)
-        values (#{uid,jdbcType=VARCHAR}, #{data,jdbcType=LONGVARCHAR})
+        insert into avatar (`uid`, `data`, `type`)
+        values (#{uid,jdbcType=VARCHAR}, #{data,jdbcType=LONGVARCHAR}, #{type,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.lln.api.domain.Avatar"
-            useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into avatar
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="uid != null">
-                `uid`,
-            </if>
-            <if test="data != null">
-                `data`,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="uid != null">
-                #{uid,jdbcType=VARCHAR},
-            </if>
-            <if test="data != null">
-                #{data,jdbcType=LONGVARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.lln.api.domain.Avatar">
-        <!--@mbg.generated-->
-        update avatar
-        <set>
-            <if test="uid != null">
-                `uid` = #{uid,jdbcType=VARCHAR},
-            </if>
-            <if test="data != null">
-                `data` = #{data,jdbcType=LONGVARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
+
     <update id="updateByPrimaryKey" parameterType="com.lln.api.domain.Avatar">
         <!--@mbg.generated-->
         update avatar
@@ -73,15 +29,11 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
-    <select id="selectByUid" resultMap="BaseResultMap" parameterType="string">
+    <select id="selectByUidAndType" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from avatar
         where uid = #{uid,jdbcType=VARCHAR}
-    </select>
-    <select id="isExist" resultType="boolean" parameterType="string">
-        select count(id)
-        from avatar
-        where uid = #{uid,jdbcType=VARCHAR}
+          and type = #{type,jdbcType=INTEGER}
     </select>
 </mapper>

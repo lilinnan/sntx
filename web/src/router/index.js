@@ -19,6 +19,10 @@ const routes = [
         path: '/taiwan',
         name: 'taiwan',
         component: Search
+    }, {
+        path: '/japan',
+        name: 'japan',
+        component: Search
     },
     {
         path: '/about',

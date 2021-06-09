@@ -4,6 +4,19 @@
       <div>
         <v-timeline>
           <v-timeline-item>
+            <span slot="opposite">2021.6.9</span>
+            <v-card class="elevation-2">
+              <v-card-text>
+                <div>
+                  1.更新日服历史头像查询
+                </div>
+                <div>
+                  2.更新依赖版本
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-timeline-item>
+          <v-timeline-item>
             <span slot="opposite">2020.9.24</span>
             <v-card class="elevation-2">
               <v-card-text>

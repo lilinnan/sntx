@@ -26,8 +26,6 @@ import java.util.List;
 
 @Service
 public class GetAvatarServiceImpl implements GetAvatarService {
-    private final static String MAINLAND = "http://nn4cn-sh-server-cbt.papegames.com/obt/";
-    private final static String TAIWAN = "http://nn4-tw.papegames.com/tw/";
     /**
      * 需要使用的客户端
      */
@@ -46,21 +44,30 @@ public class GetAvatarServiceImpl implements GetAvatarService {
         this.avatarMapper = avatarMapper;
     }
 
+    /**
+     * 检查一个链接的资源是否有效
+     * 一个链接检查3次
+     *
+     * @param url url
+     * @return true or false
+     */
     private boolean isValid(String url) {
         Request request = new Request.Builder().url(url).head().build();
-        try (Response response = okHttpClient.newCall(request).execute()) {
-            return response.code() == 200;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        int num = 0;
+        while (num < 3) {
+            try (Response response = okHttpClient.newCall(request).execute()) {
+                return response.code() == 200;
+            } catch (Exception e) {
+                e.printStackTrace();
+                num++;
+            }
         }
+        return false;
     }
 
     private String avatarUrl(int num, String uid, Type type) {
         String temp = (num < 10 ? "0" : "") + num;
-        temp = uid + temp;
-        return (Type.MAINLAND.equals(type) ? MAINLAND : TAIWAN)
-                + uid + "/photo/" + temp + ".png";
+        return type + uid + "/photo/" + uid + temp + ".png";
     }
 
     private boolean isValid(int num, String uid, Type type) {
@@ -71,7 +78,7 @@ public class GetAvatarServiceImpl implements GetAvatarService {
     public Result getAvatar(String uid, String t) {
         Type type = Type.valueOf(t.toUpperCase());
         //初始化
-        Avatar avatar = initAvatar(uid);
+        Avatar avatar = initAvatar(uid, type);
         //获取之前的数据
         List<Integer> avatarDataList = CommonUtils.parseDataToList(avatar.getData());
         //拿到之前的数据以后，再取出不在数组中的一些数据
@@ -90,7 +97,12 @@ public class GetAvatarServiceImpl implements GetAvatarService {
         avatar.setData(CommonUtils.parseListToData(avatarDataList));
         //然后对数据进行保存
         save(avatar);
-        return Result.builder().uid(uid).prefix(getPrefix(uid, type)).suffix(".png").list(avatarDataList).build();
+        return Result.builder()
+                .uid(uid)
+                .prefix(getPrefix(uid, type))
+                .suffix(".png")
+                .list(avatarDataList)
+                .build();
     }
 
     private void startCheck(List<Integer> avatarDataList, String uid, Type type, int start) {
@@ -135,9 +147,13 @@ public class GetAvatarServiceImpl implements GetAvatarService {
      * @param uid 用户UID
      * @return 查到的数据或是新创建的数据
      */
-    private Avatar initAvatar(String uid) {
-        Avatar avatar = avatarMapper.selectByUid(uid);
-        return avatar == null ? Avatar.builder().id(-1).uid(uid).build() : avatar;
+    private Avatar initAvatar(String uid, Type type) {
+        Avatar avatar = avatarMapper.selectByUidAndType(uid, type.getType());
+        return avatar == null ? Avatar.builder()
+                .id(-1)
+                .uid(uid)
+                .type(type.getType())
+                .build() : avatar;
     }
 
 
@@ -150,6 +166,7 @@ public class GetAvatarServiceImpl implements GetAvatarService {
         if (StringUtils.isEmpty(avatar.getData())) {
             return;
         }
+        System.out.println(avatar.getId());
         if (avatar.getId() <= 0) {
             avatarMapper.insert(avatar);
             return;
@@ -159,6 +176,6 @@ public class GetAvatarServiceImpl implements GetAvatarService {
 
 
     private String getPrefix(String uid, Type type) {
-        return (Type.MAINLAND.equals(type) ? MAINLAND : TAIWAN) + uid + "/photo/";
+        return type + uid + "/photo/";
     }
 }

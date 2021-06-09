@@ -4,10 +4,7 @@ import com.lln.api.domain.AvatarRequestBody;
 import com.lln.api.domain.Message;
 import com.lln.api.service.GetAvatarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author LiLinnan
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/get-avatar")
 public class AvatarController {
 
     private final GetAvatarService getAvatarService;
@@ -26,15 +24,15 @@ public class AvatarController {
         this.getAvatarService = getAvatarService;
     }
 
-    @PostMapping("/getAvatar")
-    public Message getAvatar(@RequestBody AvatarRequestBody avatarRequestBody) {
-        if (avatarRequestBody.getUid() == null) {
-            return Message.builder().status(400).message("请输入您的ID").build();
+    @GetMapping("/{type}/{uid}")
+    public Message getAvatar2(@PathVariable String type, @PathVariable String uid) {
+        if (type == null || uid == null) {
+            return Message.builder().status(400).message("请输入信息").build();
         }
 
         return Message.builder()
                 .status(200)
-                .message(getAvatarService.getAvatar(avatarRequestBody.getUid(), avatarRequestBody.getType()))
+                .message(getAvatarService.getAvatar(uid, type))
                 .build();
     }
 }

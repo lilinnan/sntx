@@ -16,4 +16,11 @@ public class Avatar {
     private String uid = "";
 
     private String data = "";
+
+    /**
+     * 0 国服
+     * 1 台服
+     * 2 日服
+     */
+    private Integer type = -1;
 }
